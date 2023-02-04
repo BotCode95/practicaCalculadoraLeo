@@ -1,9 +1,11 @@
 import { useState } from 'react'
 export const Home = () => {
-	const [valor, setValor] = useState<string>('')
+	const [valor, setValor] = useState<string>('0')
+	const [calculo, setCalculo] = useState('')
 
 	const sumar = () => {
-		setValor(valor)
+		setCalculo((prev) => prev + ' + ')
+		// setValor(valor)
 	}
 
 	const restar = () => {
@@ -12,15 +14,24 @@ export const Home = () => {
 
 	const reset = () => {
 		setValor('0')
+		setCalculo('')
 	}
 
 	const num = (numero: number) => {
+		if (valor.length === 1 && valor === '0') {
+			setValor('')
+			setCalculo('')
+		}
 		setValor((prev) => prev + numero)
+		setCalculo((prev) => prev + numero)
 	}
 
 	return (
 		<div className="container">
 			<div className="container_resultado">
+				<span style={{ display: 'flex', justifyContent: 'flex-end' }}>
+					{calculo}
+				</span>
 				<p className="texto_resultado"> {valor ?? '0'} </p>
 			</div>
 			<div className="container_calculadora">

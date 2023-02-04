@@ -88,6 +88,7 @@ button:focus-visible {
   background-color: #1a1a1a;
   display: flex;
   justify-content: flex-start;
+  flex-direction: column;
 }
 
 .container_calculadora{
