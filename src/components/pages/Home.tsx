@@ -1,26 +1,56 @@
 import { useState } from 'react'
 export const Home = () => {
-	const [valor, setValor] = useState<string>('')
+	const [valor, setValor] = useState<string>('0')
+	const [valorCalculo, setValorCalculo] = useState<string>('')
 
-	const sumar = () => {
-		setValor(valor)
-	}
-
-	const restar = () => {
-		setValor(valor)
+	const signo = (signoACalcular: string) => {
+		if (signoACalcular === '=') {
+			const array = valorCalculo.split(' ')
+			let resultado = 0
+			let signo = ''
+			for (let i = 0; i < array.length; i++) {
+				if (parseInt(array[i])) {
+					if (signo !== '') {
+						if (signo === '+') {
+							resultado += parseInt(array[i])
+						} else if (signo === '-') {
+							resultado -= parseInt(array[i])
+						} else if (signo === 'x') {
+							resultado *= parseInt(array[i])
+						} else if (signo === '/') {
+							resultado /= parseInt(array[i])
+						}
+					} else {
+						resultado = parseInt(array[i])
+					}
+				} else {
+					signo = array[i]
+				}
+			}
+			setValor(resultado.toString())
+		} else {
+			setValor('')
+		}
+		setValorCalculo((prev) => prev + ' ' + signoACalcular + ' ')
 	}
 
 	const reset = () => {
 		setValor('0')
+		setValorCalculo('')
 	}
 
 	const num = (numero: number) => {
+		if (valor === '0') {
+			setValor('')
+		}
 		setValor((prev) => prev + numero)
+		setValorCalculo((prev) => prev + numero)
 	}
 
 	return (
 		<div className="container">
 			<div className="container_resultado">
+				<span className="texto_calculo">{valorCalculo}</span>
 				<p className="texto_resultado"> {valor ?? '0'} </p>
 			</div>
 			<div className="container_calculadora">
@@ -29,7 +59,9 @@ export const Home = () => {
 					<div className="boton" onClick={reset}>
 						C
 					</div>
-					<div className="boton">/</div>
+					<div className="boton" onClick={() => signo('/')}>
+						/
+					</div>
 				</div>
 				<div className="fila_calculadora">
 					<div className="boton" onClick={() => num(7)}>
@@ -41,7 +73,9 @@ export const Home = () => {
 					<div className="boton" onClick={() => num(9)}>
 						9
 					</div>
-					<div className="boton">x</div>
+					<div className="boton" onClick={() => signo('x')}>
+						x
+					</div>
 				</div>
 				<div className="fila_calculadora">
 					<div className="boton" onClick={() => num(4)}>
@@ -53,7 +87,7 @@ export const Home = () => {
 					<div className="boton" onClick={() => num(6)}>
 						6
 					</div>
-					<div className="boton" onClick={restar}>
+					<div className="boton" onClick={() => signo('-')}>
 						-
 					</div>
 				</div>
@@ -67,7 +101,7 @@ export const Home = () => {
 					<div className="boton" onClick={() => num(3)}>
 						3
 					</div>
-					<div className="boton" onClick={sumar}>
+					<div className="boton" onClick={() => signo('+')}>
 						+
 					</div>
 				</div>
@@ -79,7 +113,9 @@ export const Home = () => {
 						0
 					</div>
 					<div className="boton">.</div>
-					<div className="boton">=</div>
+					<div className="boton" onClick={() => signo('=')}>
+						=
+					</div>
 				</div>
 			</div>
 		</div>
