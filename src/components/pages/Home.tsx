@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { BotonCalculadora } from '../BotonCalculadora'
 export const Home = () => {
 	const [valor, setValor] = useState<string>('0')
 	const [valorCalculo, setValorCalculo] = useState<string>('')
@@ -9,19 +10,24 @@ export const Home = () => {
 			let resultado = 0
 			let signo = ''
 			for (let i = 0; i < array.length; i++) {
-				if (parseInt(array[i])) {
+				let num = parseFloat(array[i])
+				if (parseFloat(array[i])) {
 					if (signo !== '') {
-						if (signo === '+') {
-							resultado += parseInt(array[i])
-						} else if (signo === '-') {
-							resultado -= parseInt(array[i])
-						} else if (signo === 'x') {
-							resultado *= parseInt(array[i])
-						} else if (signo === '/') {
-							resultado /= parseInt(array[i])
+						switch (signo) {
+							case '+':
+								resultado += num
+								break
+							case '-':
+								resultado -= num
+								break
+							case 'x':
+								resultado *= num
+								break
+							default:
+								resultado /= num
 						}
 					} else {
-						resultado = parseInt(array[i])
+						resultado = parseFloat(array[i])
 					}
 				} else {
 					signo = array[i]
@@ -39,7 +45,7 @@ export const Home = () => {
 		setValorCalculo('')
 	}
 
-	const num = (numero: number) => {
+	const num = (numero: string) => {
 		if (valor === '0') {
 			setValor('')
 		}
@@ -56,66 +62,32 @@ export const Home = () => {
 			<div className="container_calculadora">
 				<div className="fila_calculadora">
 					<div className="boton boton_nombre_calculadora">calculator</div>
-					<div className="boton" onClick={reset}>
-						C
-					</div>
-					<div className="boton" onClick={() => signo('/')}>
-						/
-					</div>
+					<BotonCalculadora funcion={() => reset()} nombre={'C'} />
+					<BotonCalculadora funcion={() => signo('/')} nombre={'/'} />
 				</div>
 				<div className="fila_calculadora">
-					<div className="boton" onClick={() => num(7)}>
-						7
-					</div>
-					<div className="boton" onClick={() => num(8)}>
-						8
-					</div>
-					<div className="boton" onClick={() => num(9)}>
-						9
-					</div>
-					<div className="boton" onClick={() => signo('x')}>
-						x
-					</div>
+					<BotonCalculadora funcion={() => num('7')} nombre={'7'} />
+					<BotonCalculadora funcion={() => num('8')} nombre={'8'} />
+					<BotonCalculadora funcion={() => num('9')} nombre={'9'} />
+					<BotonCalculadora funcion={() => signo('x')} nombre={'x'} />
 				</div>
 				<div className="fila_calculadora">
-					<div className="boton" onClick={() => num(4)}>
-						4
-					</div>
-					<div className="boton" onClick={() => num(5)}>
-						5
-					</div>
-					<div className="boton" onClick={() => num(6)}>
-						6
-					</div>
-					<div className="boton" onClick={() => signo('-')}>
-						-
-					</div>
+					<BotonCalculadora funcion={() => num('4')} nombre={'4'} />
+					<BotonCalculadora funcion={() => num('5')} nombre={'5'} />
+					<BotonCalculadora funcion={() => num('6')} nombre={'6'} />
+					<BotonCalculadora funcion={() => signo('-')} nombre={'-'} />
 				</div>
 				<div className="fila_calculadora">
-					<div className="boton" onClick={() => num(1)}>
-						1
-					</div>
-					<div className="boton" onClick={() => num(2)}>
-						2
-					</div>
-					<div className="boton" onClick={() => num(3)}>
-						3
-					</div>
-					<div className="boton" onClick={() => signo('+')}>
-						+
-					</div>
+					<BotonCalculadora funcion={() => num('1')} nombre={'1'} />
+					<BotonCalculadora funcion={() => num('2')} nombre={'2'} />
+					<BotonCalculadora funcion={() => num('3')} nombre={'3'} />
+					<BotonCalculadora funcion={() => signo('+')} nombre={'+'} />
 				</div>
 				<div className="fila_calculadora">
-					<div className="boton" onClick={() => num(0)}>
-						00
-					</div>
-					<div className="boton" onClick={() => num(0)}>
-						0
-					</div>
-					<div className="boton">.</div>
-					<div className="boton" onClick={() => signo('=')}>
-						=
-					</div>
+					<BotonCalculadora funcion={() => num('00')} nombre={'00'} />
+					<BotonCalculadora funcion={() => num('0')} nombre={'0'} />
+					<BotonCalculadora funcion={() => num('.')} nombre={'.'} />
+					<BotonCalculadora funcion={() => signo('=')} nombre={'='} />
 				</div>
 			</div>
 		</div>
